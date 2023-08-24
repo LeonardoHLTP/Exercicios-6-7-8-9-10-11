@@ -1,0 +1,214 @@
+#Exercício 6
+#A composição é um conceito bastante importante na programação orientada a objetos (POO), onde um objeto é composto por outros objetos. Essa relação refere-se a um relacionamento "tem-um", onde um objeto é composto por outros objeitos menores.
+#A composição permite a criação de objetos complexos por meio da combinação de objetos menores reutilizáveis, encapsulando sua lógica e fornecendo funcionalidades adicionais.
+
+class Computador:
+    def __init__(self):
+        self.processador = Processador()
+        self.memoria = Memoria()
+        self.disco = Disco()
+
+class Processador:
+    def __init__(self):
+        self.modelo = "Intel i7"
+        self.velocidade = "3.5 GHz"
+
+class Memoria:
+    def __init__(self):
+        self.capacidade = "16 GB"
+        self.tipo = "DDR4"
+
+class Disco:
+    def __init__(self):
+        self.capacidade = "1 TB"
+        self.tipo = "SSD"
+
+#Exercício 7
+
+class Documento:
+    def __init__(self, titulo, conteudo):
+        self.titulo = titulo
+        self.conteudo = conteudo
+
+    def exibir(self):
+        return f"Título: {self.titulo}, Conteúdo: {self.conteudo}"
+
+
+class Email(Documento):
+    def __init__(self, titulo, conteudo, remetente, destinatario):
+        super().__init__(titulo, conteudo)
+        self.remetente = remetente
+        self.destinatario = destinatario
+
+    def exibir(self):
+        return f"Título: {self.titulo}, Conteúdo: {self.conteudo}, Remetente: {self.remetente}, Destinatário: {self.destinatario}"
+
+
+class Relatorio(Documento):
+    def __init__(self, titulo, conteudo, data):
+        super().__init__(titulo, conteudo)
+        self.data = data
+
+    def exibir(self):
+        return f"Título: {self.titulo}, Conteúdo: {self.conteudo}, Data: {self.data}" 
+
+doc = Documento("Documento A", "Conteúdo do Documento A")
+email = Email("Email A", "Conteúdo do Email A", "remetente@teste.com", "destinatario@teste.com")
+relatorio = Relatorio("Relatório A", "Conteúdo do Relatório A", "01/01/2022")
+
+print(doc.exibir())
+print(email.exibir())
+print(relatorio.exibir())
+
+#Exercício 8
+
+class Produto:
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
+    
+    def desconto(self, percentual):
+        desconto = self.preco * (percentual / 100)
+        preco_com_desconto = self.preco - desconto
+        return preco_com_desconto
+
+class Livro(Produto):
+    def __init__(self, nome, preco, autor):
+        super().__init__(nome, preco)
+        self.autor = autor
+    
+    def desconto(self, percentual):
+        desconto = self.preco * (percentual / 100)
+        desconto_adicional = self.preco * (10 / 100) # 10% de desconto adicional para livros
+        preco_com_desconto = self.preco - desconto - desconto_adicional
+        return preco_com_desconto
+
+class Jogo(Produto):
+    def __init__(self, nome, preco, plataforma):
+        super().__init__(nome, preco)
+        self.plataforma = plataforma
+
+produto_1 = Produto("Teclado", 100)
+print(produto_1.desconto(10))  # 90.0
+
+livro_1 = Livro("Dom Casmurro", 50, "Machado de Assis")
+print(livro_1.desconto(10))  # 35.0
+
+jogo_1 = Jogo("The Witcher 3", 60, "PC")
+print(jogo_1.desconto(10))  # 54.0
+
+
+#Exercício 9
+
+class ContaBancaria:
+    def __init__(self, titular, saldo):
+        self.titular = titular
+        self.saldo = saldo
+    
+    def depositar(self, valor):
+        self.saldo += valor
+    
+    def sacar(self, valor):
+        if valor <= self.saldo:
+            self.saldo -= valor
+        else:
+            print("Saldo insuficiente!")
+
+class ContaPoupanca(ContaBancaria):
+    def sacar(self, valor):
+        taxa = 2
+        if valor + taxa <= self.saldo:
+            self.saldo -= valor + taxa
+        else:
+            print("Saldo insuficiente!")
+
+class ContaCorrente(ContaBancaria):
+    def __init__(self, titular, saldo, limite):
+        super().__init__(titular, saldo)
+        self.limite = limite
+    
+    def sacar(self, valor):
+        if valor <= self.saldo + self.limite:
+            self.saldo -= valor
+        else:
+            print("Limite de saque excedido!")
+
+conta_1 = ContaPoupanca("João", 100)
+conta_1.sacar(50)
+print(conta_1.saldo)  # Output: 48
+
+conta_2 = ContaCorrente("Maria", 200, 100)
+conta_2.sacar(250)
+print(conta_2.saldo)  # Output: -50
+
+#Exercício 10
+
+class Publicacao:
+    def __init__(self, titulo, ano_publicacao):
+        self.titulo = titulo
+        self.ano_publicacao = ano_publicacao
+    
+    def descricao(self):
+        return f"Título: {self.titulo}\nAno de publicação: {self.ano_publicacao}"
+
+
+class Livro(Publicacao):
+    def __init__(self, titulo, ano_publicacao, autor, numero_paginas):
+        super().__init__(titulo, ano_publicacao)
+        self.autor = autor
+        self.numero_paginas = numero_paginas
+    
+    def descricao(self):
+        return f"{super().descricao()}\nAutor: {self.autor}\nNúmero de páginas: {self.numero_paginas}"
+
+
+class Revista(Publicacao):
+    def __init__(self, titulo, ano_publicacao, editora, edicao):
+        super().__init__(titulo, ano_publicacao)
+        self.editora = editora
+        self.edicao = edicao
+    
+    def descricao(self):
+        return f"{super().descricao()}\nEditora: {self.editora}\nEdição: {self.edicao}"
+
+
+livro1 = Livro("O Senhor dos Anéis", 1954, "J.R.R. Tolkien", 1178)
+print(livro1.descricao())
+print("\n")
+
+revista1 = Revista("National Geographic", 2021, "National Geographic Society", "Abril")
+print(revista1.descricao())
+
+#Exercício 11
+
+class Veiculo:
+    def __init__(self, cor, preco):
+        self.cor = cor
+        self.preco = preco
+    
+    def detalhes(self):
+        return f"Cor: {self.cor}, Preço: R${self.preco:.2f}"
+
+class Carro(Veiculo):
+    def __init__(self, cor, preco, numero_portas):
+        super().__init__(cor, preco)
+        self.numero_portas = numero_portas
+    
+    def detalhes(self):
+        veiculo_detalhes = super().detalhes()
+        return f"Carro\n{veiculo_detalhes}, Número de Portas: {self.numero_portas}"
+
+class Bicicleta(Veiculo):
+    def __init__(self, cor, preco, tipo):
+        super().__init__(cor, preco)
+        self.tipo = tipo
+    
+    def detalhes(self):
+        veiculo_detalhes = super().detalhes()
+        return f"Bicicleta\n{veiculo_detalhes}, Tipo: {self.tipo}"
+
+carro = Carro("Azul", 30000, 4)
+bicicleta = Bicicleta("Vermelha", 1000, "Montanha")
+
+print(carro.detalhes())
+print(bicicleta.detalhes())
