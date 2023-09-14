@@ -1,6 +1,5 @@
 #Exercício 6
-#A composição é um conceito bastante importante na programação orientada a objetos (POO), onde um objeto é composto por outros objetos. Essa relação refere-se a um relacionamento "tem-um", onde um objeto é composto por outros objeitos menores.
-#A composição permite a criação de objetos complexos por meio da combinação de objetos menores reutilizáveis, encapsulando sua lógica e fornecendo funcionalidades adicionais.
+
 
 class Computador:
     def __init__(self):
